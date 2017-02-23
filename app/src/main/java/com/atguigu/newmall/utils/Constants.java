@@ -10,11 +10,18 @@ package com.atguigu.newmall.utils;
 public class Constants {
 
     //public static String BASE_URL = "http://192.168.51.104:8080/atguigu";
-    //    public static String BASE_URL = "http://192.168.191.1:8080/atguigu";
-    //public static String BASE_URL = "http://10.0.2.2:8080/atguigu";
 
+
+    //    public static String BASE_URL = "http://192.168.191.1:8080/atguigu";
+
+
+   // public static String BASE_URL = "http://10.0.2.2:8080/atguigu";
+
+
+    //外网
+    public static String BASE_URL = "http://182.92.5.3:8081/android/resources";
     //本地数据库
-    public static String BASE_URL = "http://192.168.1.62:8080/Tests/atguigu";
+    //public static String BASE_URL = "http://192.168.1.5:8080/Tests/atguigu";
 
 
     private static final String BASE_URL_JSON = BASE_URL + "/json/";
