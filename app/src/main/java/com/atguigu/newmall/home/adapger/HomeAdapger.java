@@ -91,7 +91,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 
     /**
@@ -148,8 +148,8 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 View view3 = inflater.inflate(R.layout.seckill_item, null);
                 return new SeckillViewHolder(mContext, view3);
             case RECOMMEND:
-                View view4 = inflater.inflate(R.layout.recommend_item,null);
-                break;
+                View view4 = inflater.inflate(R.layout.recommend_item, null);
+                return new RecommendViewHolder(mContext, view4);
             case HOT:
                 break;
         }
@@ -187,6 +187,8 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 seckillViewHolder.setData(mResult.getSeckill_info());
                 break;
             case RECOMMEND:
+                RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
+                recommendViewHolder.setData(mResult.getRecommend_info());
                 break;
             case HOT:
                 break;
@@ -315,7 +317,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
     private class SeckillViewHolder extends RecyclerView.ViewHolder {
 
         private final Context context;
-        private cn.iwgang.countdownview.CountdownView countdownview;
+        private CountdownView countdownview;
 
         TextView tvMoreSeckill;
 
@@ -359,5 +361,32 @@ public class HomeAdapger extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 推荐页面
+     */
+    private class RecommendViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
+        TextView tvMoreRecommend;
+        GridView gvRecommend;
+        RecommendAdapter mAdapter;
 
+        public RecommendViewHolder(Context context, View view4) {
+            super(view4);
+            tvMoreRecommend = (TextView) view4.findViewById(R.id.tv_more_recommend);
+            gvRecommend = (GridView) view4.findViewById(R.id.gv_recommend);
+            this.context = context;
+        }
+
+        public void setData(List<HomeBean.ResultBean.RecommendInfoBean> data) {
+            mAdapter = new RecommendAdapter(mContext, data);
+            gvRecommend.setAdapter(mAdapter);
+
+            gvRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }
