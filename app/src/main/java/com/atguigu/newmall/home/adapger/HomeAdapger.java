@@ -81,6 +81,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
      * 当前类型
      */
     public int currentType = BANNER;
+    private BannerViewHolder mBannerViewHolder;
 
     public HomeAdapger(Context context, HomeBean.ResultBean result) {
         this.mContext = context;
@@ -147,6 +148,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 View view3 = inflater.inflate(R.layout.seckill_item, null);
                 return new SeckillViewHolder(mContext, view3);
             case RECOMMEND:
+                View view4 = inflater.inflate(R.layout.recommend_item,null);
                 break;
             case HOT:
                 break;
@@ -165,9 +167,9 @@ public class HomeAdapger extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case BANNER:
-                BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
+                BannerViewHolder mBannerViewHolder = (BannerViewHolder) holder;
                 //绑定数据
-                bannerViewHolder.setData(mResult.getBanner_info());
+                mBannerViewHolder.setData(mResult.getBanner_info());
                 break;
             case CHANNEL:
                 ChannelViewHolder viewHolder = (ChannelViewHolder) holder;
@@ -339,7 +341,21 @@ public class HomeAdapger extends RecyclerView.Adapter {
             //设置布局管理器
             rvSeckill.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
+
+            //设置秒杀时间
+
+            countdownview.setTag("test1");
+            long duration = Long.parseLong(data.getEnd_time()) - Long.parseLong(data.getStart_time());
+            countdownview.start(duration);
+
             //设置点击事件
+
+            mAdapter.setMySeckillInterface(new SeckillRecyclerViewAdapter.MySeckillInterface() {
+                @Override
+                public void OnClickListener(SeckillRecyclerViewAdapter.ViewHolder v, int position) {
+                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

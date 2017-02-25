@@ -40,7 +40,7 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         //根据位置得到相应数据
         HomeBean.ResultBean.SeckillInfoBean.ListBean listBean = datas.get(position);
 
@@ -50,6 +50,14 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
         Glide.with(context)
                 .load(Constants.BASE_URL_IMAGE + listBean.getFigure())
                 .into(holder.ivFigure);
+        holder.ivFigure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mMySeckillInterface!= null) {
+                    mMySeckillInterface.OnClickListener(holder,position);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,5 +81,17 @@ public class SeckillRecyclerViewAdapter extends RecyclerView.Adapter<SeckillRecy
             tvOriginPrice = (TextView) itemView.findViewById(R.id.tv_origin_price);
             ivFigure = (ImageView) itemView.findViewById(R.id.iv_figure);
         }
+    }
+
+    /**
+     * 回调接口
+     */
+    public interface MySeckillInterface{
+        void OnClickListener(ViewHolder v, int position);
+    }
+    private MySeckillInterface mMySeckillInterface;
+
+    public void setMySeckillInterface(MySeckillInterface mySeckillInterface) {
+        mMySeckillInterface = mySeckillInterface;
     }
 }
