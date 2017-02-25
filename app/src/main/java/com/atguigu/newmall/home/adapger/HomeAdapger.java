@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.newmall.R;
+import com.atguigu.newmall.home.MyGridView;
 import com.atguigu.newmall.home.bean.HomeBean;
 import com.atguigu.newmall.utils.Constants;
 import com.atguigu.newmall.utils.DensityUtil;
@@ -81,6 +82,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
      * 当前类型
      */
     public int currentType = BANNER;
+
     private BannerViewHolder mBannerViewHolder;
 
     public HomeAdapger(Context context, HomeBean.ResultBean result) {
@@ -91,7 +93,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 
     /**
@@ -151,7 +153,8 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 View view4 = inflater.inflate(R.layout.recommend_item, null);
                 return new RecommendViewHolder(mContext, view4);
             case HOT:
-                break;
+                View view5 = inflater.inflate(R.layout.hot_item, null);
+                return new HotViewHolder(mContext, view5);
         }
         return null;
     }
@@ -191,6 +194,8 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 recommendViewHolder.setData(mResult.getRecommend_info());
                 break;
             case HOT:
+                HotViewHolder hotViewHolder = (HotViewHolder) holder;
+                hotViewHolder.setData(mResult.getHot_info());
                 break;
         }
     }
@@ -382,6 +387,33 @@ public class HomeAdapger extends RecyclerView.Adapter {
             gvRecommend.setAdapter(mAdapter);
 
             gvRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    /**
+     * 热卖
+     */
+    private class HotViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMoreHot;
+        MyGridView gvHot;
+        HotAdapter mAdapter;
+
+        public HotViewHolder(Context context, View view5) {
+            super(view5);
+            tvMoreHot = (TextView) view5.findViewById(R.id.tv_more_hot);
+            gvHot = (MyGridView) view5.findViewById(R.id.gv_hot);
+        }
+
+        public void setData(List<HomeBean.ResultBean.HotInfoBean> data) {
+            mAdapter = new HotAdapter(mContext, data);
+            gvHot.setAdapter(mAdapter);
+
+            gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
