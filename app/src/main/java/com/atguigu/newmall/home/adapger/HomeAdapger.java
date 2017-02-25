@@ -1,6 +1,7 @@
 package com.atguigu.newmall.home.adapger;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,18 @@ import android.widget.Toast;
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.home.bean.HomeBean;
 import com.atguigu.newmall.utils.Constants;
+import com.atguigu.newmall.utils.DensityUtil;
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerClickListener;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 import com.youth.banner.transformer.BackgroundToForegroundTransformer;
+import com.zhy.magicviewpager.transformer.RotateYTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by ${
@@ -82,7 +87,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
     /**
@@ -130,9 +135,11 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 View view = inflater.inflate(R.layout.banner_viewpager, null);
                 return new BannerViewHolder(mContext, view);
             case CHANNEL:
-                return new ChannelViewHolder(mContext, inflater.inflate(R.layout.channel_item, null));
+                View view1 = inflater.inflate(R.layout.channel_item, null);
+                return new ChannelViewHolder(mContext, view1);
             case ACT:
-                break;
+                View view2 = inflater.inflate(R.layout.act_viewpager, null);
+                return new ActViewHolder(mContext, view2);
             case SECKILL:
                 break;
             case RECOMMEND:
@@ -155,6 +162,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
         switch (getItemViewType(position)) {
             case BANNER:
                 BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
+                //绑定数据
                 bannerViewHolder.setData(mResult.getBanner_info());
                 break;
             case CHANNEL:
@@ -163,6 +171,10 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 viewHolder.setData(mResult.getChannel_info());
                 break;
             case ACT:
+                ActViewHolder actViewHolder = (ActViewHolder) holder;
+                //绑定数据
+                actViewHolder.setData(mResult.getAct_info());
+
                 break;
             case SECKILL:
                 break;
@@ -173,6 +185,9 @@ public class HomeAdapger extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 广告条
+     */
     class BannerViewHolder extends RecyclerView.ViewHolder {
 
         private final Context context;
@@ -209,16 +224,18 @@ public class HomeAdapger extends RecyclerView.Adapter {
             //设置样式
             banner.setBannerAnimation(BackgroundToForegroundTransformer.class);
             //3.设置Banner的点击事件
-            banner.setOnBannerClickListener(new OnBannerClickListener() {
+            banner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int position) {
-                    int realPosition = position - 1;
-                    Toast.makeText(mContext, "realPosition==" + realPosition, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Position==" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
+    /**
+     * gridview 效果
+     */
     class ChannelViewHolder extends RecyclerView.ViewHolder {
         private final Context mContext;
         private ChannelAdapger channelAdapter;
@@ -243,6 +260,41 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 }
             });
 
+        }
+    }
+
+    private class ActViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
+        private ViewPager viewpagerHome;
+        ActPagerAdapter adapter;
+
+        public ActViewHolder(Context context, View view2) {
+            super(view2);
+            ButterKnife.bind(this, view2);
+            this.context = context;
+            viewpagerHome = (ViewPager) view2.findViewById(R.id.viewpager_home);
+        }
+
+        public void setData(List<HomeBean.ResultBean.ActInfoBean> data) {
+
+            adapter = new ActPagerAdapter(mContext, data);
+
+            //美化ViewPager库
+            viewpagerHome.setPageMargin(DensityUtil.dip2px(mContext, 20));//设置page间间距，自行根据需求设置
+            viewpagerHome.setOffscreenPageLimit(3);//>=3
+            viewpagerHome.setAdapter(adapter);
+            //setPageTransformer 决定动画效果
+            viewpagerHome.setPageTransformer(true, new
+                    RotateYTransformer());
+
+            //设置点击事件
+
+            adapter.setMyActPagerInterface(new ActPagerAdapter.MyActPagerInterface() {
+                @Override
+                public void OnItemClickListener(View v, int position) {
+                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
