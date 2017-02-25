@@ -2,6 +2,7 @@ package com.atguigu.newmall.home.adapger;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.newmall.R;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * Created by ${
@@ -87,7 +90,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
     /**
@@ -141,7 +144,8 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 View view2 = inflater.inflate(R.layout.act_viewpager, null);
                 return new ActViewHolder(mContext, view2);
             case SECKILL:
-                break;
+                View view3 = inflater.inflate(R.layout.seckill_item, null);
+                return new SeckillViewHolder(mContext, view3);
             case RECOMMEND:
                 break;
             case HOT:
@@ -174,9 +178,11 @@ public class HomeAdapger extends RecyclerView.Adapter {
                 ActViewHolder actViewHolder = (ActViewHolder) holder;
                 //绑定数据
                 actViewHolder.setData(mResult.getAct_info());
-
                 break;
             case SECKILL:
+                SeckillViewHolder seckillViewHolder = (SeckillViewHolder) holder;
+                //绑定数据
+                seckillViewHolder.setData(mResult.getSeckill_info());
                 break;
             case RECOMMEND:
                 break;
@@ -263,6 +269,9 @@ public class HomeAdapger extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * viewpager图片滑动
+     */
     private class ActViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
         private ViewPager viewpagerHome;
@@ -297,4 +306,42 @@ public class HomeAdapger extends RecyclerView.Adapter {
             });
         }
     }
+
+    /**
+     * 秒杀热卖
+     */
+    private class SeckillViewHolder extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        private cn.iwgang.countdownview.CountdownView countdownview;
+
+        TextView tvMoreSeckill;
+
+        RecyclerView rvSeckill;
+
+        SeckillRecyclerViewAdapter mAdapter;
+
+        public SeckillViewHolder(Context context, View view3) {
+            super(view3);
+            countdownview = (CountdownView) view3.findViewById(R.id.countdownview);
+            tvMoreSeckill = (TextView) view3.findViewById(R.id.tv_more_seckill);
+            rvSeckill = (RecyclerView) view3.findViewById(R.id.rv_seckill);
+
+            this.context = context;
+
+        }
+
+        public void setData(HomeBean.ResultBean.SeckillInfoBean data) {
+            mAdapter = new SeckillRecyclerViewAdapter(context, data);
+
+            rvSeckill.setAdapter(mAdapter);
+
+            //设置布局管理器
+            rvSeckill.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
+            //设置点击事件
+        }
+    }
+
+
 }
