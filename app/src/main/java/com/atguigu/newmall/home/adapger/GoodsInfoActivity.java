@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.home.bean.GoodsBean;
+import com.atguigu.newmall.utils.CartStorage;
 import com.atguigu.newmall.utils.Constants;
 import com.bumptech.glide.Glide;
 
@@ -177,6 +178,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(GoodsInfoActivity.this, "购物车", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_good_info_addcart:
+                CartStorage.getInstance(this).addData(mGoodsBean);
                 break;
             case R.id.ll_goods_root:
                 break;
