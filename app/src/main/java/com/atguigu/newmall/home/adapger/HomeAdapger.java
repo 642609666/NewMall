@@ -352,7 +352,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
                     webViewBean.setUrl(actInfoBean.getUrl());
                     webViewBean.setIcon_url(actInfoBean.getIcon_url());
                     Intent intent = new Intent(mContext, WebViewActivity.class);
-                    intent.putExtra(WEBVIEW_BEAN,webViewBean);
+                    intent.putExtra(WEBVIEW_BEAN, webViewBean);
                     mContext.startActivity(intent);
                 }
             });
@@ -383,7 +383,7 @@ public class HomeAdapger extends RecyclerView.Adapter {
 
         }
 
-        public void setData(HomeBean.ResultBean.SeckillInfoBean data) {
+        public void setData(final HomeBean.ResultBean.SeckillInfoBean data) {
             mAdapter = new SeckillRecyclerViewAdapter(context, data);
 
             rvSeckill.setAdapter(mAdapter);
@@ -403,7 +403,16 @@ public class HomeAdapger extends RecyclerView.Adapter {
             mAdapter.setMySeckillInterface(new SeckillRecyclerViewAdapter.MySeckillInterface() {
                 @Override
                 public void OnClickListener(SeckillRecyclerViewAdapter.ViewHolder v, int position) {
-                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    HomeBean.ResultBean.SeckillInfoBean.ListBean infoBean = data.getList().get(position);
+                    //商品新的的Bean对象
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setProduct_id(infoBean.getProduct_id());
+                    goodsBean.setCover_price(infoBean.getCover_price());
+                    goodsBean.setFigure(infoBean.getFigure());
+                    goodsBean.setName(infoBean.getName());
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra(GOOD_BEAN, goodsBean);
+                    mContext.startActivity(intent);
                 }
             });
         }
@@ -463,14 +472,24 @@ public class HomeAdapger extends RecyclerView.Adapter {
             gvHot = (MyGridView) view5.findViewById(R.id.gv_hot);
         }
 
-        public void setData(List<HomeBean.ResultBean.HotInfoBean> data) {
+        public void setData(final List<HomeBean.ResultBean.HotInfoBean> data) {
             mAdapter = new HotAdapter(mContext, data);
             gvHot.setAdapter(mAdapter);
 
             gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    HomeBean.ResultBean.HotInfoBean infoBean = data.get(position);
+                    //商品新的的Bean对象
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setProduct_id(infoBean.getProduct_id());
+                    goodsBean.setCover_price(infoBean.getCover_price());
+                    goodsBean.setFigure(infoBean.getFigure());
+                    goodsBean.setName(infoBean.getName());
+                    Intent intent = new Intent(mContext, GoodsInfoActivity.class);
+                    intent.putExtra(GOOD_BEAN, goodsBean);
+                    mContext.startActivity(intent);
+
                 }
             });
         }
