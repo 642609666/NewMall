@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.home.bean.GoodsBean;
 import com.atguigu.newmall.shoppingcart.view.AddSubView;
+import com.atguigu.newmall.utils.CartStorage;
 import com.atguigu.newmall.utils.Constants;
 import com.bumptech.glide.Glide;
 
@@ -49,6 +50,26 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         tvShopcartTotal.setText("合计:" + getTotalPrice());
     }
 
+    /**
+     * 删除数据
+     */
+    public void deleteData() {
+        if (datas.size() > 0 && datas != null) {
+            for (int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+
+                if (goodsBean.isChecked()) {
+                    //1.内存中删除
+                    datas.remove(goodsBean);
+                    //2.本地也删除
+                    CartStorage.getInstance(context).deleteData(goodsBean);
+                    //刷新数据
+                    notifyItemRemoved(i);
+                    i--;
+                }
+            }
+        }
+    }
 
     /**
      * 创建视图
