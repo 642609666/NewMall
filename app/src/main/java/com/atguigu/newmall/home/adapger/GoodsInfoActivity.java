@@ -96,6 +96,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
         //设置名字,,,价格,,,,图片
         tvGoodInfoName.setText(data.getName());
         tvGoodInfoPrice.setText("￥" + data.getCover_price());
+        //设置图片
         Glide.with(this)
                 .load(Constants.BASE_URL_IMAGE + data.getFigure())
                 .into(ivGoodInfoImage);
@@ -178,6 +179,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(GoodsInfoActivity.this, "购物车", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_good_info_addcart:
+                Toast.makeText(GoodsInfoActivity.this, "已添加到购物车", Toast.LENGTH_SHORT).show();
                 CartStorage.getInstance(this).addData(mGoodsBean);
                 break;
             case R.id.ll_goods_root:

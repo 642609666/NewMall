@@ -74,6 +74,12 @@ public class CartStorage {
         return goodsBeen;
     }
 
+    /**
+     * 懒汉模式启动
+     *
+     * @param context
+     * @return
+     */
     public static CartStorage getInstance(Context context) {
         if (instace == null) {
             //同步锁
