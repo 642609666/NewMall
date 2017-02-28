@@ -45,7 +45,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     /**
      * 显示总价格
      */
-    private void showTotalPrice() {
+    public void showTotalPrice() {
         tvShopcartTotal.setText("合计:" + getTotalPrice());
     }
 
@@ -61,6 +61,37 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public MyViewHoler onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHoler(View.inflate(context, R.layout.item_shop_cart, null));
 
+    }
+
+    /**
+     * 效验是否全选
+     */
+    public void checkAll() {
+        if (datas.size() > 0 && datas != null) {
+
+            int number = 0;
+            for (int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                if (!goodsBean.isChecked()) {
+                    //只要有一个不勾选
+                    checkboxAll.setChecked(false);
+                    checkboxDeleteAll.setChecked(false);
+                } else {
+                    //勾选
+                    number++;
+                }
+
+            }
+            if (datas.size() == number) {
+                //如果是全选
+                checkboxAll.setChecked(true);
+                checkboxDeleteAll.setChecked(true);
+            }
+        } else {
+            //没有数据的时候默认
+            checkboxAll.setChecked(false);
+            checkboxDeleteAll.setChecked(false);
+        }
     }
 
     @Override
@@ -111,13 +142,42 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         TextView tvPriceGov;
         AddSubView addSubView;
 
-        public MyViewHoler(View itemView) {
+        public MyViewHoler(final View itemView) {
             super(itemView);
             cbGov = (CheckBox) itemView.findViewById(R.id.cb_gov);
             ivGov = (ImageView) itemView.findViewById(R.id.iv_gov);
             tvDescGov = (TextView) itemView.findViewById(R.id.tv_desc_gov);
             tvPriceGov = (TextView) itemView.findViewById(R.id.tv_price_gov);
             addSubView = (AddSubView) itemView.findViewById(R.id.addSubView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener !=null) {
+                        //得到布局的位置
+                        itemClickListener.onItemClickListener(v,getLayoutPosition());
+                    }
+                }
+            });
         }
     }
+
+    //回调点击事件的监听
+    private OnItemClickListener itemClickListener;
+
+    /**
+     * 点击item的监听
+     */
+    public interface OnItemClickListener {
+        public void onItemClickListener(View view, int position);
+    }
+
+    /**
+     * 设置item的监听
+     *
+     * @param l
+     */
+    public void setOnItemClickListener(OnItemClickListener l) {
+        this.itemClickListener = l;
+}
 }

@@ -59,6 +59,7 @@ public class CartFragment extends BaseFragment {
     LinearLayout llEmptyShopcart;
 
     private ShoppingCartAdapter adapter;
+    private List<GoodsBean> list;
 
     /**
      * Plugin
@@ -80,7 +81,7 @@ public class CartFragment extends BaseFragment {
     protected void initData() {
         Log.e("TAG", "购物车的数据被初始化了");
         //得到数据
-        List<GoodsBean> list = CartStorage.getInstance(mContext).getAllData();
+        list = CartStorage.getInstance(mContext).getAllData();
 
         if (list != null && list.size() > 0) {
             //购物车有数据
@@ -95,8 +96,22 @@ public class CartFragment extends BaseFragment {
             recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
             //设置点击事件
+            adapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClickListener(View view, int position) {
+                    //1.设置bean对象状态取反
+                    GoodsBean goodsBean = list.get(position);
+                    goodsBean.setChecked(!goodsBean.isChecked());
 
-
+                    adapter.notifyItemChanged(position);
+                    //2.刷新价格
+                    adapter.showTotalPrice();
+                    //3.效验是否全选
+                    adapter.checkAll();
+                }
+            });
+            //3.效验是否全选
+            adapter.checkAll();
         } else {
             //购物车没有
             llEmptyShopcart.setVisibility(View.GONE);
