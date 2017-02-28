@@ -138,7 +138,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     @Override
     public void onBindViewHolder(MyViewHoler holder, int position) {
         //1.先得到数据
-        GoodsBean goodsBean = datas.get(position);
+        final GoodsBean goodsBean = datas.get(position);
         //2.绑定数据
         holder.cbGov.setChecked(goodsBean.isChecked());
         //图片
@@ -153,6 +153,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         //设置库存,来自服务器
         holder.addSubView.setMinValue(1);
         holder.addSubView.setMaxValue(100);
+        //监听回调
+        holder.addSubView.setListener(new AddSubView.OnNumberChangerListener() {
+            @Override
+            public void onNumberChanger(int value) {
+                //1.回调数量
+                goodsBean.setNumber(value);
+
+                CartStorage.getInstance(context).updateData(goodsBean);
+
+                showTotalPrice();
+            }
+        });
     }
 
     @Override
