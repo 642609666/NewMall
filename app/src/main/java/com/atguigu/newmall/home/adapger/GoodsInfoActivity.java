@@ -1,6 +1,7 @@
 package com.atguigu.newmall.home.adapger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -179,7 +180,9 @@ public class GoodsInfoActivity extends AppCompatActivity {
             case R.id.tv_good_info_style:
                 break;
             case R.id.tv_good_info_callcenter:
-                Toast.makeText(GoodsInfoActivity.this, "客服中心", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GoodsInfoActivity.this, "客服中心", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, CallCenterActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_good_info_collection:
                 Toast.makeText(GoodsInfoActivity.this, "收藏", Toast.LENGTH_SHORT).show();
@@ -188,8 +191,8 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(GoodsInfoActivity.this, "购物车", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_good_info_addcart:
-               // Toast.makeText(GoodsInfoActivity.this, "已添加到购物车", Toast.LENGTH_SHORT).show();
-               // CartStorage.getInstance(this).addData(mGoodsBean);
+                // Toast.makeText(GoodsInfoActivity.this, "已添加到购物车", Toast.LENGTH_SHORT).show();
+                // CartStorage.getInstance(this).addData(mGoodsBean);
                 showPopwindow();
                 break;
             case R.id.ll_goods_root:
@@ -226,11 +229,11 @@ public class GoodsInfoActivity extends AppCompatActivity {
     private void showPopwindow() {
 
         tempGoodsBean = CartStorage.getInstance(this).findDete(mGoodsBean.getProduct_id());//购物车里面
-        if(tempGoodsBean == null){//是否在购物车中存在
+        if (tempGoodsBean == null) {//是否在购物车中存在
             isExist = false;
             tempGoodsBean = mGoodsBean;
-        }else {
-            isExist  =true;
+        } else {
+            isExist = true;
         }
 
 
@@ -288,8 +291,8 @@ public class GoodsInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 window.dismiss();
-                if(isExist&& tempGoodsBean.getNumber()==1){
-                    tempGoodsBean.setNumber(tempGoodsBean.getNumber()+1);
+                if (isExist && tempGoodsBean.getNumber() == 1) {
+                    tempGoodsBean.setNumber(tempGoodsBean.getNumber() + 1);
                 }
             }
         });
