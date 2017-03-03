@@ -2,8 +2,8 @@ package com.atguigu.newmall.type.fragment;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
+import com.atguigu.newmall.R;
 import com.atguigu.newmall.base.BaseFragment;
 
 /**
@@ -16,10 +16,9 @@ import com.atguigu.newmall.base.BaseFragment;
 public class TabFragment extends BaseFragment {
     @Override
     public View initView() {
-        TextView textView = new TextView(mContext);
-        textView.setText("我是tab");
+        View view = View.inflate(mContext, R.layout.fragment_tag,null);
         Log.e("TAG", "tab碎片视图加载成功");
-        return textView;
+        return view;
     }
 
     @Override

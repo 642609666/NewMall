@@ -1,5 +1,6 @@
 package com.atguigu.newmall.type.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.base.BaseFragment;
 import com.atguigu.newmall.type.adapter.TypeLeftAdapter;
+import com.atguigu.newmall.type.adapter.TypeRightAdapter;
 import com.atguigu.newmall.type.bean.TypeBean;
 import com.atguigu.newmall.utils.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -34,6 +36,7 @@ public class ListFragment extends BaseFragment {
     @BindView(R.id.rv_right)
     RecyclerView recyclerviewType;
     private TypeLeftAdapter mLeftAdapter;
+    private TypeRightAdapter rightAdapter;
 
     //网络请求得到数据
     private String[] titles = new String[]{"小裙子", "上衣", "下装", "外套", "配件", "包包", "装扮", "居家宅品",
@@ -69,6 +72,8 @@ public class ListFragment extends BaseFragment {
 
                 //刷新适配器
                 mLeftAdapter.notifyDataSetChanged();
+
+                getDataFromNet(urls[position]);
             }
         });
         //联网请求
@@ -101,6 +106,29 @@ public class ListFragment extends BaseFragment {
         TypeBean typeBean = JSON.parseObject(url, TypeBean.class);
         mResult = typeBean.getResult();
         Log.e("TAG", "点击的" + mResult.get(0).getName());
+
+        if (mResult.size() > 0 && mResult != null) {
+            rightAdapter = new TypeRightAdapter(mContext, mResult);
+
+            recyclerviewType.setAdapter(rightAdapter);
+
+            //设置布局管理器
+
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+            //设置跨度大小查找
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position == 0) {
+                        return 3;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+
+            recyclerviewType.setLayoutManager(manager);
+        }
     }
 
 }
