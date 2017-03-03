@@ -251,10 +251,17 @@ public class CartFragment extends BaseFragment {
                 Toast.makeText(mContext, "收藏", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_empty_cart_tobuy:
-                Toast.makeText(mContext, "去逛逛", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "去逛逛", Toast.LENGTH_SHORT).show();
+                //此办法有缓存   NO
+                //  getFragmentManager().beginTransaction().replace(R.id.rl_main,new HomeFragment()).commit();
+                //此办法会重新加载主页面  NO
+                //  Intent intent = new Intent(getActivity(), MainActivity.class);
+                //  startActivity(intent);
+                //  getActivity().finish();
                 break;
         }
     }
+
 
     /**
      * 没有数据的时候显示
