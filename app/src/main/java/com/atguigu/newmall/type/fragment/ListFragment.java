@@ -122,7 +122,7 @@ public class ListFragment extends BaseFragment {
                     if (position == 0) {
                         return 3;
                     } else {
-                        return 0;
+                        return 1;
                     }
                 }
             });
