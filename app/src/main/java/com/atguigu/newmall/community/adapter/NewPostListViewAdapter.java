@@ -13,7 +13,12 @@ import com.atguigu.newmall.R;
 import com.atguigu.newmall.community.bean.NewPostBean;
 import com.atguigu.newmall.utils.Constants;
 import com.bumptech.glide.Glide;
+import com.opendanmaku.DanmakuItem;
+import com.opendanmaku.DanmakuView;
+import com.opendanmaku.IDanmakuItem;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,7 +85,30 @@ public class NewPostListViewAdapter extends BaseAdapter {
         viewHolder.tvCommunitySaying.setText(resultEntity.getSaying());
 
 
+        //显示弹幕
+        List<String> list = resultEntity.getComment_list();
+        if (list != null && list.size() > 0) {
+            //有弹幕数据
+            List<IDanmakuItem> iDanmakuItems = initItems(viewHolder.danmakuView, list);
+            Collections.shuffle(iDanmakuItems);
+            viewHolder.danmakuView.addItem(iDanmakuItems, true);
+            viewHolder.danmakuView.show();
+            viewHolder.danmakuView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.danmakuView.hide();
+            viewHolder.danmakuView.setVisibility(View.GONE);
+        }
+
         return convertView;
+    }
+
+    private List<IDanmakuItem> initItems(DanmakuView danmakuView, List<String> strings) {
+        List<IDanmakuItem> list = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++) {
+            IDanmakuItem item = new DanmakuItem(context, strings.get(i), danmakuView.getWidth());
+            list.add(item);
+        }
+        return list;
     }
 
     static class ViewHolder {
@@ -100,6 +128,8 @@ public class NewPostListViewAdapter extends BaseAdapter {
         TextView tvCommunityLikes;
         @BindView(R.id.tv_community_comments)
         TextView tvCommunityComments;
+        @BindView(R.id.danmakuView)
+        DanmakuView danmakuView;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
