@@ -21,8 +21,8 @@ public class Constants {
     //外网
     //public static String BASE_URL = "http://182.92.5.3:8081/android/resources";
     //本地数据库
-    //public static String BASE_URL = "http://192.168.1.5:8080/Tests/atguigu";
-    public static String BASE_URL = "http://192.168.1.5:8080/atguigu";
+    public static String BASE_URL = "http://192.168.1.104:8080/Tests/atguigu";
+   // public static String BASE_URL = "http://192.168.1.5:8080/atguigu";
 
     private static final String BASE_URL_JSON = BASE_URL + "/json/";
     /**

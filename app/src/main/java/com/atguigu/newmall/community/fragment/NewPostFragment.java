@@ -7,6 +7,7 @@ import android.widget.ListView;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.base.BaseFragment;
+import com.atguigu.newmall.community.adapter.NewPostListViewAdapter;
 import com.atguigu.newmall.community.bean.NewPostBean;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,6 +33,7 @@ public class NewPostFragment extends BaseFragment {
     ListView lvNewPost;
     private List<NewPostBean.ResultEntity> mResult;
 
+    private NewPostListViewAdapter adapter;
     /**
      * 初始新帖视图
      *
@@ -67,7 +69,7 @@ public class NewPostFragment extends BaseFragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e("TAG", "新帖页面解析成功" + response);
+                        Log.e("TAG", "新帖页面解析成功" );
 
                         //解析数据
                         disposeData(response);
@@ -79,5 +81,11 @@ public class NewPostFragment extends BaseFragment {
     private void disposeData(String json) {
         NewPostBean newPostBean = JSON.parseObject(json, NewPostBean.class);
         mResult = newPostBean.getResult();
+
+        if(mResult.size()>0 && mResult != null) {
+            adapter = new NewPostListViewAdapter(mContext,mResult);
+
+            lvNewPost.setAdapter(adapter);
+        }
     }
 }
