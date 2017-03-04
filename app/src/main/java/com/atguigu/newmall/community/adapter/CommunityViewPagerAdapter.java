@@ -17,10 +17,22 @@ import java.util.List;
 
 public class CommunityViewPagerAdapter extends FragmentPagerAdapter {
     private final List<BaseFragment> datas;
+    private String[] titles = new String[]{"新帖", "热帖"};
 
     public CommunityViewPagerAdapter(FragmentManager fm, List<BaseFragment> list) {
         super(fm);
         this.datas = list;
+    }
+
+    /**
+     * 获取页面标题
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 
     @Override
