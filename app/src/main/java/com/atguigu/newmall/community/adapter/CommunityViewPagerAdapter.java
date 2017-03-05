@@ -26,6 +26,7 @@ public class CommunityViewPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * 获取页面标题
+     * 显示标题才用到这个方法
      *
      * @param position
      * @return
