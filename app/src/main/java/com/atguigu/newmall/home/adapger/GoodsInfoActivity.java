@@ -109,6 +109,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
         //设置图片
         Glide.with(this)
                 .load(Constants.BASE_URL_IMAGE + data.getFigure())
+                .placeholder(R.drawable.new_img_loading_1)
                 .into(ivGoodInfoImage);
 
         //设置加载网页

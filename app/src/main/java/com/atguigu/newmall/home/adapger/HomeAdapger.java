@@ -306,7 +306,13 @@ public class HomeAdapger extends RecyclerView.Adapter {
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    if (position < 9) {
+                        Intent intent = new Intent(mContext, GoodsListActivity.class);
+                        intent.putExtra("position", position);
+                        mContext.startActivity(intent);
+                    } else {
+                        Toast.makeText(mContext, "暂无更多", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
