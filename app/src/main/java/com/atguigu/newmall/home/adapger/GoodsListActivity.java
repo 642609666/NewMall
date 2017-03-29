@@ -235,7 +235,8 @@ public class GoodsListActivity extends AppCompatActivity {
                 Toast.makeText(GoodsListActivity.this, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ib_goods_list_home://主页
-                Toast.makeText(GoodsListActivity.this, "主页", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GoodsListActivity.this, "主页", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.tv_goods_list_sort://综合排序
 //                Toast.makeText(GoodsListActivity.this, "综合排序", Toast.LENGTH_SHORT).show();

@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atguigu.newmall.MainActivity;
 import com.atguigu.newmall.R;
 import com.atguigu.newmall.home.bean.GoodsBean;
 import com.atguigu.newmall.shoppingcart.view.AddSubView;
@@ -85,6 +86,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
      */
     private GoodsBean mGoodsBean;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +97,13 @@ public class GoodsInfoActivity extends AppCompatActivity {
     }
 
     public void getData() {
-        mGoodsBean = (GoodsBean) getIntent().getSerializableExtra(GOOD_BEAN);
 
+        mGoodsBean = (GoodsBean) getIntent().getSerializableExtra(GOOD_BEAN);
         setData(mGoodsBean);
+
+        //mGoodsBean = (GoodsBean) getIntent().getSerializableExtra(GOOD_BEAN);
+
+        //setData(mGoodsBean);
 
 
     }
@@ -190,7 +196,11 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(GoodsInfoActivity.this, "收藏", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_good_info_cart:
-                Toast.makeText(GoodsInfoActivity.this, "购物车", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GoodsInfoActivity.this, "购物车", Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, MainActivity.class);
+                intent.putExtra("checkId", R.id.rb_cart);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.btn_good_info_addcart:
                 // Toast.makeText(GoodsInfoActivity.this, "已添加到购物车", Toast.LENGTH_SHORT).show();
@@ -201,12 +211,20 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 break;
             case R.id.tv_more_share:
                 Toast.makeText(GoodsInfoActivity.this, "分享", Toast.LENGTH_SHORT).show();
+
+                intent = new Intent(this, SaoMiao.class);
+                intent.putExtra("good_id", mGoodsBean);
+                startActivity(intent);
+
+
+
                 break;
             case R.id.tv_more_search:
                 Toast.makeText(GoodsInfoActivity.this, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_more_home:
-                Toast.makeText(GoodsInfoActivity.this, "主页", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GoodsInfoActivity.this, "主页", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case R.id.btn_more:
                 //隐藏
@@ -214,6 +232,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 break;
         }
     }
+
 
     /**
      * 缓存
